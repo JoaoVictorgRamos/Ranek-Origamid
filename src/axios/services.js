@@ -4,10 +4,11 @@ const axiosInstance = axios.create({
   baseURL: "http://localhost:3000",
 });
 
-axiosInstance.get("/produto");
-
 export const api = {
   get(endpoint) {
     return axiosInstance.get(endpoint);
+  },
+  post(endpoint, body) {
+    return axiosInstance.post(endpoint, body);
   },
 };
