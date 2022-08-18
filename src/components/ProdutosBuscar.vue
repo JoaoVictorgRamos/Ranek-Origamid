@@ -59,5 +59,6 @@ form {
   position: absolute;
   top: 0px;
   right: 0px;
+  box-shadow: none;
 }
 </style>
