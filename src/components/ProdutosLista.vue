@@ -1,32 +1,39 @@
 <template>
   <section class="produtos-container">
-    <div v-if="produtos && produtos.length" class="produtos">
-      <div class="produto" v-for="(produto, index) in produtos" :key="index">
-        <router-link to="/">
-          <img
-            v-if="produto.fotos"
-            :src="produto.fotos[0].src"
-            :alt="produto.fotos[0].titulo"
-          />
-          <h2 class="titulo">{{ produto.nome }}</h2>
-          <p class="preco">{{ produto.preco }}</p>
-          <p>{{ produto.descricao }}</p>
-        </router-link>
+    <transition mode="out-in">
+      <div v-if="produtos && produtos.length" class="produtos" key="produtos">
+        <div class="produto" v-for="(produto, index) in produtos" :key="index">
+          <router-link to="/">
+            <img
+              v-if="produto.fotos"
+              :src="produto.fotos[0].src"
+              :alt="produto.fotos[0].titulo"
+            />
+            <h2 class="titulo">{{ produto.nome }}</h2>
+            <p class="preco">{{ produto.preco }}</p>
+            <p>{{ produto.descricao }}</p>
+          </router-link>
+        </div>
       </div>
-    </div>
-    <div v-else-if="produtos && produtos.length === 0">
-      <p class="sem-resultados">
-        Busca sem resultados. Tente buscar outro termo
-      </p>
-    </div>
-    <ProdutosPaginar
-      :produtosTotal="produtosTotal"
-      :produtosPorPagina="produtosPorPagina"
-    />
+      <div v-else-if="produtos && produtos.length === 0" key="sem-resultados">
+        <p class="sem-resultados">
+          Busca sem resultados. Tente buscar outro termo
+        </p>
+      </div>
+      <PaginaCarregando v-else key="carregando" />
+    </transition>
+    <transition mode="out-in">
+      <ProdutosPaginar
+        :produtosTotal="produtosTotal"
+        :produtosPorPagina="produtosPorPagina"
+      />
+    </transition>
   </section>
 </template>
 
 <script>
+import PaginaCarregando from "@/components/PaginaCarregando.vue";
+
 import ProdutosPaginar from "@/components/ProdutosPaginar.vue";
 
 import { api } from "@/axios/services.js";
@@ -36,6 +43,7 @@ export default {
   name: "ProdutosLista",
   components: {
     ProdutosPaginar,
+    PaginaCarregando,
   },
   data() {
     return {
@@ -52,10 +60,13 @@ export default {
   },
   methods: {
     getProdutos() {
-      api.get(this.url).then((response) => {
-        this.produtosTotal = Number(response.headers["x-total-count"]);
-        this.produtos = response.data;
-      });
+      this.produtos = null;
+      window.setTimeout(() => {
+        api.get(this.url).then((response) => {
+          this.produtosTotal = Number(response.headers["x-total-count"]);
+          this.produtos = response.data;
+        });
+      }, 1500);
     },
   },
   watch: {

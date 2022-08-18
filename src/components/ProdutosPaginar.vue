@@ -65,13 +65,9 @@ li a {
   border-radius: 2px;
   margin: 4px;
 }
-li a.router-link-active {
-  background: #4b8;
-  color: white;
-}
-/* li a.router-link-exact-active,
+li a.router-link-active,
 li a:hover {
   background: #87f;
   color: #fff;
-} */
+}
 </style>
