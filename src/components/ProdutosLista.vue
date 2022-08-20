@@ -3,7 +3,9 @@
     <transition mode="out-in">
       <div v-if="produtos && produtos.length" class="produtos" key="produtos">
         <div class="produto" v-for="(produto, index) in produtos" :key="index">
-          <router-link to="/">
+          <router-link
+            :to="{ name: 'ProdutoView', params: { id: produto.id } }"
+          >
             <img
               v-if="produto.fotos"
               :src="produto.fotos[0].src"
@@ -41,6 +43,7 @@ import { serialize } from "@/helpers/helpers.js";
 
 export default {
   name: "ProdutosLista",
+  props: ["id"],
   components: {
     ProdutosPaginar,
     PaginaCarregando,
@@ -64,7 +67,18 @@ export default {
       window.setTimeout(() => {
         api.get(this.url).then((response) => {
           this.produtosTotal = Number(response.headers["x-total-count"]);
-          this.produtos = response.data;
+          this.produtos = response.data.map((produto) => {
+            let valor = Number(produto.preco);
+            if (!isNaN(valor)) {
+              produto.preco = valor.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              });
+            } else {
+              produto.preco = "";
+            }
+            return { ...produto };
+          });
         });
       }, 1500);
     },
