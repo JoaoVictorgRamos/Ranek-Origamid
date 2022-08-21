@@ -2,6 +2,7 @@ import { api } from "@/axios/services.js";
 import { createStore } from "vuex";
 
 export default createStore({
+  strict: true,
   state: {
     login: false,
     usuario: {
@@ -23,7 +24,7 @@ export default createStore({
       state.login = payload;
     },
     UPDATE_USUARIO(state, payload) {
-      state.usuario = payload;
+      state.usuario = Object.assign(state.usuario, payload);
     },
   },
   actions: {
