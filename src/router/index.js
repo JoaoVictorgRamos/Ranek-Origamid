@@ -3,7 +3,12 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import ProdutoView from "../views/ProdutoView.vue";
 import LoginView from "../views/LoginView.vue";
+
 import UsuarioView from "../views/usuario/UsuarioView.vue";
+import UsuarioProdutos from "../views/usuario/UsuarioProdutos.vue";
+import UsuarioVendas from "../views/usuario/UsuarioVendas.vue";
+import UsuarioCompras from "../views/usuario/UsuarioCompras.vue";
+import UsuarioEditar from "../views/usuario/UsuarioEditar.vue";
 
 const routes = [
   {
@@ -25,9 +30,29 @@ const routes = [
   },
   {
     path: "/UsuarioView",
-    name: "UsuarioView",
     component: UsuarioView,
-    props: true,
+    children: [
+      {
+        path: "",
+        name: "UsuarioView",
+        component: UsuarioProdutos,
+      },
+      {
+        path: "UsuarioCompras",
+        name: "UsuarioCompras",
+        component: UsuarioCompras,
+      },
+      {
+        path: "UsuarioVendas",
+        name: "UsuarioVendas",
+        component: UsuarioVendas,
+      },
+      {
+        path: "UsuarioEditar",
+        name: "UsuarioEditar",
+        component: UsuarioEditar,
+      },
+    ],
   },
 ];
 
