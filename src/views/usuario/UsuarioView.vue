@@ -22,7 +22,6 @@
     <transition mode="out-in">
       <router-view></router-view>
     </transition>
-    <p>pagina do usuario : {{ $store.state.usuario }}</p>
   </section>
 </template>
 

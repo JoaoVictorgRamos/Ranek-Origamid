@@ -10,18 +10,6 @@
       "numero": "25",
       "estado": "PR",
       "cidade": "Curitiba"
-    },
-    {
-      "id": "Maria@nves.com",
-      "nome": "Maria das Neves",
-      "email": "Maria@nves.com",
-      "senha": "123",
-      "cep": "87800000",
-      "rua": "paris",
-      "numero": "14345",
-      "bairro": "lopa",
-      "cidade": "Rondon",
-      "estado": "PR"
     }
   ],
   "produto": [

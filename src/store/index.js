@@ -17,6 +17,7 @@ export default createStore({
       cidade: "",
       estado: "",
     },
+    usuario_produtos: null,
   },
   getters: {},
   mutations: {
@@ -26,8 +27,20 @@ export default createStore({
     UPDATE_USUARIO(state, payload) {
       state.usuario = Object.assign(state.usuario, payload);
     },
+    UPDATE_USUARIO_PRODUTOS(state, payload) {
+      state.usuario_produtos = payload;
+    },
+    ADD_USUARIO_PRODUTOS(state, payload) {
+      state.usuario_produtos.unshit(payload);
+    },
   },
   actions: {
+    getUsuarioProdutos(context) {
+      api.get(`/produto?usuario_id=joao@origamid.com`).then((response) => {
+        context.commit("UPDATE_USUARIO_PRODUTOS", response.data);
+        console.log(context.state);
+      });
+    },
     getUsuario(context) {
       return api.get(`/usuario`).then((response) => {
         context.commit("UPDATE_USUARIO", response.data);
