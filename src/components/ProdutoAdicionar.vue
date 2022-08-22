@@ -28,6 +28,8 @@ export default {
         nome: "",
         preco: "",
         descricao: "",
+        fotos: null,
+        vendido: "false",
       },
     };
   },
