@@ -36,10 +36,11 @@ export default createStore({
   },
   actions: {
     getUsuarioProdutos(context) {
-      api.get(`/produto?usuario_id=joao@origamid.com`).then((response) => {
-        context.commit("UPDATE_USUARIO_PRODUTOS", response.data);
-        console.log(context.state.usuario);
-      });
+      return api
+        .get(`/produto?usuario_id=${context.state.usuario.id}`)
+        .then((response) => {
+          context.commit("UPDATE_USUARIO_PRODUTOS", response.data);
+        });
     },
     getUsuario(context) {
       return api.get(`/usuario`).then((response) => {

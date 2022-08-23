@@ -1,13 +1,13 @@
 <template>
   <section>
-    <h2>Crie a sua conta</h2>
+    <h2>Crie a Sua Conta</h2>
     <transition mode="out-in">
-      <button v-if="!criar" class="btn criar" @click="criar = true">
+      <button v-if="!criar" class="btn" @click="criar = true">
         Criar Conta
       </button>
       <UsuarioForm v-else>
-        <button @click.prevent="criarUsuario" class="btn btn-form">
-          Criar Usuario
+        <button class="btn btn-form" @click.prevent="criarUsuario">
+          Criar Usuário
         </button>
       </UsuarioForm>
     </transition>
@@ -16,6 +16,7 @@
 
 <script>
 import UsuarioForm from "@/components/UsuarioForm.vue";
+
 export default {
   name: "LoginCriar",
   components: {
@@ -24,19 +25,24 @@ export default {
   data() {
     return {
       criar: false,
+      erros: [],
     };
   },
   methods: {
-    async criarUsuario() {
+    async criarUsuario(event) {
+      this.erros = [];
+      const button = event.currentTarget;
+      button.value = "Criando...";
+      button.setAttribute("disabled", "");
       try {
         await this.$store.dispatch("criarUsuario", this.$store.state.usuario);
-        await this.$store.dispatch(
-          "getUsuario",
-          this.$store.state.usuario.email
-        );
-        this.$router.push({ name: "UsuarioView" });
+        await this.$store.dispatch("logarUsuario", this.$store.state.usuario);
+        await this.$store.dispatch("getUsuario");
+        this.$router.push({ name: "usuario" });
       } catch (error) {
-        console.log(error);
+        button.removeAttribute("disabled");
+        button.value = "Criar Usuário";
+        this.erros.push(error.response.data.message);
       }
     },
   },
